@@ -34,13 +34,12 @@ router.post("/text-input", async (req, res) => {
   // Sends data from the agent as a response
   try {
     const responses = await sessionClient.detectIntent(request);
-    res.status(200).send({ data: responses });
+    const result = responses[0].queryResult;
+    res.status(200).send(result);
   } catch (e) {
     console.log(e);
     res.status(422).send({ e });
   }
-
-  //   res.status(200).send({ data: "TEXT ENDPOINT CONNECTION SUCCESSFUL" });
 });
 
 // send voice input to chatbot

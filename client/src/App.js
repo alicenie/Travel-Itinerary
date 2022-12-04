@@ -1,4 +1,8 @@
 import GridLayout from "react-grid-layout";
+import Chatbot from "./components/chatbot/Chatbot";
+import { Provider } from "react-redux";
+import { applyMiddleware } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
 
 function App() {
   const layout = [
@@ -18,7 +22,9 @@ function App() {
       >
         <div key="map">map</div>
         <div key="itinerary">itinerary</div>
-        <div key="chatbot">chatbot</div>
+        <div key="chatbot">
+          <Chatbot />
+        </div>
       </GridLayout>
     </div>
   );
