@@ -1,8 +1,5 @@
 import GridLayout from "react-grid-layout";
 import Chatbot from "./components/chatbot/Chatbot";
-import { Provider } from "react-redux";
-import { applyMiddleware } from "redux";
-import { configureStore } from "@reduxjs/toolkit";
 import tempData from "./shared/temp-data";
 import { useState } from "react";
 import Itinerary from "./components/itinerary/Itinerary";
@@ -27,10 +24,10 @@ function App() {
       >
         <div key="map">map</div>
         <div key="itinerary">
-          <Itinerary
+          {/* <Itinerary
             itineraryData={itineraryData}
             setItineraryData={setItineraryData}
-          />
+          /> */}
         </div>
         <div key="chatbot">
           <Chatbot />
