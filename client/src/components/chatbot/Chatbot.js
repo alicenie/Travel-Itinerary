@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchMessages,
+  addMessages,
+  getAllMessages,
+} from "../../reducers/messages";
 
 const Chatbot = () => {
+  const dispatch = useDispatch();
+  const messages = useSelector(getAllMessages);
+
   const [input, setInput] = useState(""); // text in the input box
+
+  useEffect(() => {
+    eventQuery("welcomeToMyWebsite");
+    console.log("useeffect");
+  }, []);
 
   const textQuery = async (message) => {
     let conversation = {
@@ -11,12 +25,39 @@ const Chatbot = () => {
         text: { text: message },
       },
     };
-    console.log(conversation);
+    dispatch(addMessages(conversation));
+    dispatch(fetchMessages({ route: "text-input", message: message }));
 
+    // // without reducer
+    // try {
+    //   const response = await Axios.post(
+    //     "http://localhost:8080/api/agent/text-input",
+    //     { message }
+    //   );
+    //   const content = response.data.fulfillmentMessages[0];
+    //   let conversation = {
+    //     who: "bot",
+    //     content: content,
+    //   };
+    //   console.log(conversation);
+    //   //   dispatch(saveMessage(conversation));
+    // } catch (error) {
+    //   let conversation = {
+    //     who: "bot",
+    //     content: { text: { text: "Error just occured" } },
+    //   };
+    //   console.log(conversation);
+    //   //   dispatch(saveMessage(conversation));
+    //   console.log(error);
+    // }
+  };
+
+  const eventQuery = async (event) => {
+    console.log(event);
     try {
       const response = await Axios.post(
-        "http://localhost:8080/api/agent/text-input",
-        { message }
+        "http://localhost:8080/api/agent/event",
+        { event }
       );
       const content = response.data.fulfillmentMessages[0];
       let conversation = {
@@ -24,12 +65,14 @@ const Chatbot = () => {
         content: content,
       };
       console.log(conversation);
+      //   dispatch(saveMessage(conversation));
     } catch (error) {
       let conversation = {
         who: "bot",
         content: { text: { text: "Error just occured" } },
       };
       console.log(conversation);
+      //   dispatch(saveMessage(conversation));
       console.log(error);
     }
   };
@@ -46,6 +89,10 @@ const Chatbot = () => {
     }
   };
 
+  const renderMessages = (messages) => {
+    console.log(messages);
+  };
+
   return (
     <div>
       <h3>Chatbot</h3>
@@ -58,7 +105,7 @@ const Chatbot = () => {
         }}
       >
         <div style={{ height: 644, width: "100%", overflow: "auto" }}>
-          {/* {renderMessage(messagesFromRedux)} */}
+          {renderMessages(messages)}
         </div>
         <input
           style={{
