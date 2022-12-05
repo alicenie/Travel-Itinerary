@@ -24,10 +24,10 @@ function App() {
       >
         <div key="map">map</div>
         <div key="itinerary">
-          {/* <Itinerary
+          <Itinerary
             itineraryData={itineraryData}
             setItineraryData={setItineraryData}
-          /> */}
+          />
         </div>
         <div key="chatbot">
           <Chatbot />
