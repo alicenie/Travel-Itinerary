@@ -12,8 +12,8 @@ import { getPlacesData } from './api/index';
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: '100vw',
-  height: '100vh',
+  // width: '100vw',
+  height: '80vh',
 }
 const options = {
   disableDefaultUI: true, 
