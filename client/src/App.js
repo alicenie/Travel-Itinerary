@@ -3,6 +3,9 @@ import Chatbot from "./components/chatbot/Chatbot";
 import { Provider } from "react-redux";
 import { applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
+import tempData from "./shared/temp-data";
+import { useState } from "react";
+import Itinerary from "./components/itinerary/Itinerary";
 
 function App() {
   const layout = [
@@ -10,6 +13,8 @@ function App() {
     { i: "itinerary", x: 4, y: 0, w: 4, h: 2, static: true },
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
+
+  const [itineraryData, setItineraryData] = useState(tempData);
 
   return (
     <div className="App">
@@ -21,7 +26,12 @@ function App() {
         width={1200}
       >
         <div key="map">map</div>
-        <div key="itinerary">itinerary</div>
+        <div key="itinerary">
+          <Itinerary
+            itineraryData={itineraryData}
+            setItineraryData={setItineraryData}
+          />
+        </div>
         <div key="chatbot">
           <Chatbot />
         </div>
