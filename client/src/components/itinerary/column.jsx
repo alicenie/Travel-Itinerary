@@ -5,7 +5,7 @@ import { Droppable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
     margin: 8px;
-    border: 1px solid lightgrey;
+    border: 1px solid #6D7779;
     border-radius: 2px;
 `;
 const Title = styled.h3`
@@ -13,7 +13,22 @@ const Title = styled.h3`
 `;
 const EventList = styled.div`
     padding: 8px;
+    background-color: ${props => (props.isDraggingOver ? '#87DCF0' : 'white')};
 `;
+
+class InnerList extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        if (nextProps.events === this.props.events) {
+            return false;
+        }
+        return true;
+    }
+    render() {
+        return this.props.events.map((event, index) => (
+            <Event key={event.id} event={event} index={index} />
+        ));
+    }
+}
 
 export default class Column extends React.Component {
     render() {
@@ -21,14 +36,13 @@ export default class Column extends React.Component {
             <Container>
                 <Title>{this.props.column.title}</Title>
                 <Droppable droppableId={this.props.column.id}>
-                    {provided => (
+                    {(provided, snapshot) => (
                         <EventList
                             ref={provided.innerRef}
                             {...provided.droppableProps}
+                            isDraggingOver={snapshot.isDraggingOver}
                         >
-                            {this.props.events.map((event, index) => (
-                                <Event key={event.id} event={event} index={index} />
-                            ))}
+                            <InnerList events={this.props.events} />
                             {provided.placeholder}
                         </EventList>
                     )}
