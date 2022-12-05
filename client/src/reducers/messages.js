@@ -9,18 +9,20 @@ export const fetchMessages = createAsyncThunk(
         `http://localhost:8080/api/agent/${route}`,
         { message }
       );
-      const content = response.data.fulfillmentMessages[0];
-      let conversation = {
-        who: "bot",
-        content: content,
-      };
-      return conversation;
+      let conversations = [];
+      for (let content of response.data.fulfillmentMessages) {
+        conversations = conversations.concat({
+          who: "bot",
+          content: content,
+        });
+      }
+      return conversations;
     } catch (error) {
       let conversation = {
         who: "bot",
         content: { text: { text: "Error just occured" } },
       };
-      return conversation;
+      return [conversation];
     }
   }
 );
@@ -37,9 +39,10 @@ export const messagesSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchMessages.fulfilled, (state, action) => {
-      console.log("extraReducers builder, action.payload: ", action.payload);
-      state.messages = state.messages.concat(action.payload);
-      console.log(state.messages);
+      // console.log("extraReducers builder, action.payload: ", action.payload);
+      action.payload.forEach((conversation) => {
+        state.messages = state.messages.concat(conversation);
+      });
     });
   },
 });

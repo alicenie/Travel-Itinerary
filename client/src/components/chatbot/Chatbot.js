@@ -6,10 +6,11 @@ import {
   addMessages,
   getAllMessages,
 } from "../../reducers/messages";
+import Message from "./Message";
 
 const Chatbot = () => {
   const dispatch = useDispatch();
-  const messages = useSelector(getAllMessages);
+  const messages = useSelector(getAllMessages).messages;
 
   const [input, setInput] = useState(""); // text in the input box
 
@@ -17,6 +18,10 @@ const Chatbot = () => {
     eventQuery("welcomeToMyWebsite");
     console.log("useeffect");
   }, []);
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   const textQuery = async (message) => {
     let conversation = {
@@ -89,23 +94,23 @@ const Chatbot = () => {
     }
   };
 
-  const renderMessages = (messages) => {
-    console.log(messages);
-  };
-
   return (
     <div>
       <h3>Chatbot</h3>
       <div
         style={{
           height: 700,
-          width: 700,
+          width: 500,
           border: "3px solid black",
           borderRadius: "7px",
         }}
       >
         <div style={{ height: 644, width: "100%", overflow: "auto" }}>
-          {renderMessages(messages)}
+          {messages.length > 0
+            ? messages.map((msg) => {
+                return <Message who={msg.who} text={msg.content.text.text} />;
+              })
+            : null}
         </div>
         <input
           style={{
