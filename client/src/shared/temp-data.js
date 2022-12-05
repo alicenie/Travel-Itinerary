@@ -1,10 +1,10 @@
 const tempData = {
     events: {
-        'event-1': { id: 'event-1', time: '10:00 am', content: 'Cafe Moulin' },
-        'event-2': { id: 'event-2', time: '1:00 pm', content: 'Andy Warhol Museum' },
-        'event-3': { id: 'event-3', time: '3:00 pm', content: 'Duquesne Incline' },
-        'event-4': { id: 'event-4', time: '5:00 pm', content: 'Dinner @Melting Pot'},
-        'event-5': { id: 'event-5', time: '8:00 pm', content: 'Phipps Conservatory and Botanical Garden'}
+        'event-1': { id: 'event-1', duration: '1 hour', content: 'Cafe Moulin' },
+        'event-2': { id: 'event-2', duration: '2 hours', content: 'Andy Warhol Museum' },
+        'event-3': { id: 'event-3', duration: '1 hour', content: 'Duquesne Incline' },
+        'event-4': { id: 'event-4', duration: '3 hours', content: 'Dinner @Melting Pot'},
+        'event-5': { id: 'event-5', duration: '2 hours', content: 'Phipps Conservatory and Botanical Garden'}
     },
     columns: {
         'column-1': {

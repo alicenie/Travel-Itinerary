@@ -13,7 +13,7 @@ const Container = styled.div`
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.2);
 `;
 
-const Time = styled.h5``;
+const Duration = styled.h5``;
 
 const Content = styled.h4`
     font-style: italic;
@@ -31,7 +31,7 @@ export default class Event extends React.Component {
                         ref={provided.innerRef}
                         isDragging={snapshot.isDragging}
                     >   
-                        <Time className="event-time">{this.props.event.time}</Time>
+                        <Duration className="event-duration">{this.props.event.duration}</Duration>
                         <Content className="event-content">{this.props.event.content}</Content>
                     </Container>
                 )}
