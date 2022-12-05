@@ -3,6 +3,7 @@ import Chatbot from "./components/chatbot/Chatbot";
 import tempData from "./shared/temp-data";
 import { useState } from "react";
 import Itinerary from "./components/itinerary/Itinerary";
+import Map from "./components/map/Map";
 
 function App() {
   const layout = [
@@ -22,7 +23,7 @@ function App() {
         rowHeight={30}
         width={1200}
       >
-        <div key="map">map</div>
+        <div key="map"><Map /></div>
         <div key="itinerary">
           <Itinerary
             itineraryData={itineraryData}
