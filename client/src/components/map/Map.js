@@ -12,16 +12,12 @@ import { getPlacesData } from './api/index';
 
 const libraries = ["places"];
 const mapContainerStyle = {
-  width: '100vw',
-  height: '100vh',
+  // width: '100vw',
+  height: '80vh',
 }
 const options = {
   disableDefaultUI: true, 
   gestureHandling: "cooperative",
-}
-
-const onLoad = marker => {
-  // console.log('marker: ', marker);
 }
 
 const Map = () => {
@@ -37,6 +33,17 @@ const Map = () => {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [directions, setDirections] = useState(null); 
+
+  let [markerObjs, setMarkerObjs] = useState([]);
+  useEffect(()=>{
+    for (let i = 0; i < markerObjs.length; i++) {
+      markerObjs.at(i).setLabel(i.toString());
+    }
+  }, [markerObjs])
+  const onMarkerLoad = marker => {
+    // marker.setLabel(markerObjs.length);
+    setMarkerObjs(current => [...current, (marker)]);
+  }
 
   const addMarker = (lat, lng) => {
     setMarkers(current => [
@@ -134,8 +141,9 @@ const Map = () => {
         center={coords}
         defaultOptions={options}
         onLoad={onMapLoad}
-        onClick={(event) => 
-          addMarker(event.latLng.lat(), event.latLng.lng())
+        onClick={(event) => {
+            addMarker(event.latLng.lat(), event.latLng.lng());
+          }
         }
         onBoundsChanged={() => {
           console.log('change');
@@ -143,7 +151,7 @@ const Map = () => {
         }}
       >
         {/* draw directions on top of the map */}
-        {/* TODO: breaks when you try to delete the 1st/2nd stop */}
+        {/* TODO: might break when you try to delete the 1st/2nd stop */}
         { directions && (
             <DirectionsRenderer
               directions={directions}
@@ -164,10 +172,10 @@ const Map = () => {
             return ( 
             <MarkerF 
               key={m.time.toISOString()}
-              onLoad={onLoad}
+              onLoad={onMarkerLoad}
               position={{lat:m.lat, lng:m.lng}}
               // TODO: does not dynamically update index
-              label={(i+1).toString()}
+              // label={m.id.toString()}
               onClick={() => {
                 setSelectedMarker(m);
               }}
@@ -188,11 +196,17 @@ const Map = () => {
             <div>
               <button 
                 onClick={() => {
-                  // let newMarkers = 
-                  setMarkers(markers.filter(elem => {
+                  let newMarkers = markers.filter(elem => {
                       return (elem.lat !== selectedMarker.lat 
                            || elem.lng !== selectedMarker.lng);
-                    }));
+                    })
+                  let newMarkerObjs = markerObjs.filter(marker => {
+                    console.log(marker.getPosition());
+                    return (marker.getPosition().lat() !== selectedMarker.lat
+                         || marker.getPosition().lng() !== selectedMarker.lng)
+                  })
+                  setMarkerObjs(newMarkerObjs);
+                  setMarkers(newMarkers);
                   setSelectedMarker(null);
                 }}
               >
