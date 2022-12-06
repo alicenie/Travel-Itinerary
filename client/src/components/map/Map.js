@@ -34,10 +34,11 @@ const Map = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [directions, setDirections] = useState(null); 
 
+  // update labels on marker objects
   let [markerObjs, setMarkerObjs] = useState([]);
   useEffect(()=>{
     for (let i = 0; i < markerObjs.length; i++) {
-      markerObjs.at(i).setLabel(i.toString());
+      markerObjs.at(i).setLabel((i+1).toString());
     }
   }, [markerObjs])
   const onMarkerLoad = marker => {
@@ -56,6 +57,7 @@ const Map = () => {
     ]);
   }
 
+  // update directions based on markers list 
   useEffect(() => {
     if (markers.length <= 1) {
       setDirections(null)
@@ -113,7 +115,6 @@ const Map = () => {
   // to avoid too many api calls
   useEffect(() => {
     if (mapRef.current) {
-      console.log("whee")
       let ne = mapRef.current.getBounds().getNorthEast();
       let sw = mapRef.current.getBounds().getSouthWest();
       console.log("get places");
@@ -146,7 +147,7 @@ const Map = () => {
           }
         }
         onBoundsChanged={() => {
-          console.log('change');
+          // console.log('change');
           // console.log(mapRef.current.getBounds())
         }}
       >
@@ -160,7 +161,7 @@ const Map = () => {
                   // zIndex:50,
                   strokeWeight:5
                 },
-                preserveViewport: true,
+                // preserveViewport: true,
                 suppressMarkers: true
               }} />
             )
@@ -168,7 +169,7 @@ const Map = () => {
 
         {/* draw markers onto the map */}
         {
-          markers.map((m, i) => {
+          markers.map((m) => {
             return ( 
             <MarkerF 
               key={m.time.toISOString()}
@@ -201,7 +202,6 @@ const Map = () => {
                            || elem.lng !== selectedMarker.lng);
                     })
                   let newMarkerObjs = markerObjs.filter(marker => {
-                    console.log(marker.getPosition());
                     return (marker.getPosition().lat() !== selectedMarker.lat
                          || marker.getPosition().lng() !== selectedMarker.lng)
                   })
