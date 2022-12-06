@@ -1,9 +1,11 @@
 import GridLayout from "react-grid-layout";
 import Chatbot from "./components/chatbot/Chatbot";
 import tempData from "./shared/temp-data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Itinerary from "./components/itinerary/Itinerary";
 import Map from "./components/map/Map";
+import { useSelector } from "react-redux";
+import { getAllMessages, getActivities, getDate } from "./reducers/messages";
 
 function App() {
   const layout = [
@@ -13,6 +15,19 @@ function App() {
   ];
 
   const [itineraryData, setItineraryData] = useState(tempData);
+
+  const activities = useSelector(getActivities);
+  const date = useSelector(getDate);
+  const messages = useSelector(getAllMessages).messages;
+
+  useEffect(() => {
+    console.log(activities);
+  }, [activities]);
+  useEffect(() => {
+    console.log(messages);
+    console.log(activities);
+    console.log(date);
+  }, [messages]);
 
   return (
     <div className="App">
