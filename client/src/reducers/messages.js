@@ -10,6 +10,7 @@ export const fetchMessages = createAsyncThunk(
         { message }
       );
       let conversations = [];
+      console.log(response.data);
       for (let content of response.data.fulfillmentMessages) {
         conversations = conversations.concat({
           who: "bot",

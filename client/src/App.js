@@ -23,7 +23,7 @@ function App() {
         rowHeight={30}
         width={1200}
       >
-        <div key="map"><Map /></div>
+        {/* <div key="map"><Map /></div> */}
         <div key="itinerary">
           <Itinerary
             itineraryData={itineraryData}
