@@ -6,11 +6,27 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 
+export const addAddress = (address, addMarker) => {
+  console.log(address);
+  geocodeByAddress(address)
+    .then(results => {
+      getLatLng(results[0])
+    })
+    .then(latLng => {
+      console.log('Success', latLng)
+      addMarker(latLng.lat, latLng.lng);
+    })
+    .catch(error => console.error('Error', error));
+};
+
 const Search = ({setCoords, addMarker}) => {
   const [address, setAddress] = useState("");
   const handleSelect = (address) => {
+    console.log(address);
     geocodeByAddress(address)
-      .then(results => getLatLng(results[0]))
+      .then(results => {
+        getLatLng(results[0])
+      })
       .then(latLng => {
         console.log('Success', latLng)
         setAddress(address);
