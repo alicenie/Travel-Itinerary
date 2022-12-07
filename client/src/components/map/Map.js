@@ -174,7 +174,7 @@ const Map = () => {
         onBoundsChanged={() => {
           // console.log('change');
           // console.log(mapRef.current.getBounds())
-        // }}
+        }}
       >
         {/* draw directions on top of the map */}
         {/* TODO: might break when you try to delete the 1st/2nd stop */}
