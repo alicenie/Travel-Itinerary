@@ -41,7 +41,10 @@ const Map = () => {
           time: new Date(),
         };
     });
-    console.log(newMarkers);
+    if (newMarkers.length === 1 && newMarkers.at(0)) {
+      mapRef.current.panTo({lat: newMarkers.at(0).lat, lng: newMarkers.at(0).lng});
+    }
+    setMarkerObjs([]);
     setMarkers(newMarkers);
   }, [activities]);
 
@@ -56,6 +59,7 @@ const Map = () => {
   // update labels on marker objects
   let [markerObjs, setMarkerObjs] = useState([]);
   useEffect(() => {
+    console.log("marker objs changed length to ", markerObjs.length);
     for (let i = 0; i < markerObjs.length; i++) {
       markerObjs.at(i).setLabel((i + 1).toString());
     }
@@ -79,7 +83,8 @@ const Map = () => {
 
   // update directions based on markers list
   useEffect(() => {
-    console.log("MARKERS CHANGE VALUE");
+    console.log("MARKERS CHANGE VALUE, length = " + markers.length);
+
     if (markers.length <= 1) {
       setDirections(null);
     } else if (markers.length === 2) {

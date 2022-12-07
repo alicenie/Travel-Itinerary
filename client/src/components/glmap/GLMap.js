@@ -101,7 +101,8 @@ function initWebGLOverlayView(map, route) {
   };
   //right before rendering
   WebGLOverlayView.onContextRestored = ({ gl }) => {
-    var index = 1;
+    //var index = 1;
+
     renderer = new THREE.WebGLRenderer({
       canvas: gl.canvas,
       context: gl,
@@ -175,12 +176,23 @@ function initWebGLOverlayView(map, route) {
           animating === true
         ) {
           console.log(mapOptions.center.lat);
+          console.log("index: " + index + ", target lat: " + route[index].lat);
           mapOptions.center.lat += mapSpeedLat;
           mapOptions.center.lng += mapSpeedLng;
           firstlat += mapSpeedLat;
           firstlng += mapSpeedLng;
-        } else if (index < route.length - 1) {
+        } else if (
+          (mapOptions.center.lat > route[index].lat ||
+            mapOptions.center.lng > route[index].lng) &&
+          mapOptions.tilt === 90 &&
+          animating === true &&
+          index < route.length
+        ) {
+          //TODO need to detect if target is left/right (speed would reverse!)
+          console.log("Now im here");
           index += 1;
+          mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+          mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
         }
       });
     };
