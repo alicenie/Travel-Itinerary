@@ -17,9 +17,7 @@ function App() {
   ];
 
   const initItineraryData = {
-    events: {
-      // "event-1": { id: "event-1", duration: "1 hour", content: "Cafe Moulin" },
-    },
+    events: {},
     columns: {
       "column-1": {
         id: "column-1",
@@ -40,20 +38,16 @@ function App() {
     console.log(date);
     if (date !== "" && activities.length > 0) {
       let newItineraryData = { ...itineraryData };
-      console.log(newItineraryData);
+
       let index = itineraryData.columns["column-1"].eventIds.length + 1;
       newItineraryData.events[`event-${index}`] = {
         id: `event-${index}`,
         duration: activities[activities.length - 1].duration,
         content: activities[activities.length - 1].location,
       };
-      console.log(newItineraryData);
-      newItineraryData.columns["column-1"].eventIds.concat([`event-${index}`]);
-      console.log(newItineraryData);
+      newItineraryData.columns["column-1"].eventIds.push(`event-${index}`);
       newItineraryData.columns["column-1"].title = date;
-      console.log(newItineraryData);
       setItineraryData(newItineraryData);
-      console.log(newItineraryData);
     }
   }, [activities, date]);
 
