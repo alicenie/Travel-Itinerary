@@ -43,7 +43,7 @@ export const messagesSlice = createSlice({
   initialState: {
     messages: [],
     activities: [],
-    date: "2022-11-22",
+    date: "",
   },
   reducers: {
     addMessages: {
@@ -60,13 +60,13 @@ export const messagesSlice = createSlice({
         state.messages = state.messages.concat(conversation);
       });
       if (params.intent == "AskDate") {
-        // state = { ...state, date: params.fields.date };
-        console.log("askdate ", state);
+        state.date = params.fields.date.stringValue.split("T")[0];
       } else if (params.intent == "AddActivity") {
-        console.log("ask activity", state.activities);
-        state.activities = state.activities.concat(params.fields);
+        const location = params.fields["Place"].stringValue;
+        const durationObj = params.fields["duration"].structValue.fields;
+        const duration = `${durationObj.amount.numberValue} ${durationObj.unit.stringValue}`;
+        state.activities = state.activities.concat({ location, duration });
       }
-      console.log("extrabuilder, state", state.date);
     });
   },
 });

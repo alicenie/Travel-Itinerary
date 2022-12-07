@@ -83,9 +83,9 @@ router.post("/event", async (req, res) => {
   }
 });
 
-// send voice input to chatbot
-router.post("/voice-input", (req, res) => {
-  res.status(200).send({ data: "VOICE ENDPOINT CONNECTION SUCCESSFUL" });
-});
+// // send voice input to chatbot
+// router.post("/voice-input", (req, res) => {
+//   res.status(200).send({ data: "VOICE ENDPOINT CONNECTION SUCCESSFUL" });
+// });
 
 module.exports = router;

@@ -16,20 +16,46 @@ function App() {
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
 
-  const [itineraryData, setItineraryData] = useState(tempData);
+  const initItineraryData = {
+    events: {
+      // "event-1": { id: "event-1", duration: "1 hour", content: "Cafe Moulin" },
+    },
+    columns: {
+      "column-1": {
+        id: "column-1",
+        title: "",
+        eventIds: [],
+      },
+    },
+    columnOrder: ["column-1"],
+  };
+
+  const [itineraryData, setItineraryData] = useState(initItineraryData);
 
   const activities = useSelector(getActivities);
   const date = useSelector(getDate);
-  const messages = useSelector(getAllMessages).messages;
 
   useEffect(() => {
     console.log(activities);
-  }, [activities]);
-  useEffect(() => {
-    console.log(messages);
-    console.log(activities);
     console.log(date);
-  }, [messages]);
+    if (date !== "" && activities.length > 0) {
+      let newItineraryData = { ...itineraryData };
+      console.log(newItineraryData);
+      let index = itineraryData.columns["column-1"].eventIds.length + 1;
+      newItineraryData.events[`event-${index}`] = {
+        id: `event-${index}`,
+        duration: activities[activities.length - 1].duration,
+        content: activities[activities.length - 1].location,
+      };
+      console.log(newItineraryData);
+      newItineraryData.columns["column-1"].eventIds.concat([`event-${index}`]);
+      console.log(newItineraryData);
+      newItineraryData.columns["column-1"].title = date;
+      console.log(newItineraryData);
+      setItineraryData(newItineraryData);
+      console.log(newItineraryData);
+    }
+  }, [activities, date]);
 
   return (
     <div className="App">
