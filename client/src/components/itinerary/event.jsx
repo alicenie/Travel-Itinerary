@@ -17,12 +17,10 @@ const Container = styled.div`
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.2);
     height: ${props => {
         let duration = window.localStorage.getItem("duration "+props.eventId) ? 
-         props.duration.split(" ")[0] : window.localStorage.getItem("duration "+props.eventId);
+            window.localStorage.getItem("duration "+props.eventId) : props.duration.split(" ")[0];
         if (duration < 1) {
-            window.localStorage.setItem("duration "+props.eventId, duration);
             return 80;
         } else {
-            window.localStorage.setItem("duration "+props.eventId, duration);
             return duration * 80;
         }
     }}px;
@@ -79,10 +77,10 @@ const Event = (props) => {
                         <SideIndicator src={dragIndicator} duration={props.event.duration} eventId={props.event.id}></SideIndicator>
                     </div>
                     <div>
-                        <Duration id={"event-duration"+props.event.id} type="text" defaultValue={props.event.duration} duration={props.event.duration} eventId={props.event.id}></Duration>
+                        <Duration id={"event-duration "+props.event.id} type="text" defaultValue={props.event.duration} duration={props.event.duration} eventId={props.event.id}></Duration>
                         <Confirm isDragging={snapshot.isDragging} onClick={() => {
-                            window.localStorage.setItem("duration"+props.event.id, document.getElementById("event-duration"+props.event.id).value.split(" ")[0]);
-                            let duration = window.localStorage.getItem("duration"+props.event.id) < 1 ? 1 : window.localStorage.getItem("duration"+props.event.id);
+                            window.localStorage.setItem("duration "+props.event.id, document.getElementById("event-duration "+props.event.id).value.split(" ")[0]);
+                            let duration = window.localStorage.getItem("duration "+props.event.id) < 1 ? 1 : window.localStorage.getItem("duration "+props.event.id);
                             document.getElementById("eventContainer-"+props.event.id).style.height = duration * 80 + "px";
                         }}>✔️</Confirm>
                         <Content className="event-content" isDragging={snapshot.isDragging}>{props.event.content}</Content>
@@ -92,14 +90,5 @@ const Event = (props) => {
         </Draggable>
     );
 }
-// export default class Event extends React.Component {
-//     state = {
-//         duration: this.props.event.duration
-//     };
-
-//     render () {
-        
-//     }
-// }
 
 export default Event;
