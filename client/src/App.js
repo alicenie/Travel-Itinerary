@@ -7,6 +7,9 @@ import Map from "./components/map/Map";
 import initGLMap from "./components/glmap/GLMap";
 import { useSelector } from "react-redux";
 import { getAllMessages, getActivities, getDate } from "./reducers/messages";
+import { useLoadScript } from "@react-google-maps/api";
+
+const libraries = ["places"];
 
 function App() {
   const layout = [
@@ -15,6 +18,13 @@ function App() {
     { i: "itinerary", x: 4, y: 0, w: 4, h: 2, static: true },
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
+  const activities = useSelector(getActivities);
+  const date = useSelector(getDate);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: libraries,
+  });
 
   const initItineraryData = {
     events: {},
@@ -27,15 +37,12 @@ function App() {
     },
     columnOrder: ["column-1"],
   };
-
   const [itineraryData, setItineraryData] = useState(initItineraryData);
-
-  const activities = useSelector(getActivities);
-  const date = useSelector(getDate);
 
   useEffect(() => {
     console.log(activities);
     console.log(date);
+    // update itinerary data
     if (date !== "" && activities.length > 0) {
       let newItineraryData = { ...itineraryData };
 
@@ -51,6 +58,8 @@ function App() {
     }
   }, [activities, date]);
 
+  if (loadError) return "Error loading Google Maps";
+  if (!isLoaded) return "Loading Google Maps...";
   return (
     <div className="App">
       <GridLayout
@@ -83,7 +92,6 @@ function App() {
           </p>
           <div id="glmap" style={{ height: "45vh" }}></div>
         </div>
-        {/* <div key="map"><Map /></div> */}
         <div key="itinerary">
           <Itinerary
             itineraryData={itineraryData}
