@@ -42,19 +42,23 @@ function App() {
   useEffect(() => {
     console.log(activities);
     console.log(date);
+
     // update itinerary data
     if (date !== "" && activities.length > 0) {
-      let newItineraryData = { ...itineraryData };
+      // only update once after latlng is updated
+      if (activities[activities.length - 1].latLng) {
+        let newItineraryData = { ...itineraryData };
 
-      let index = itineraryData.columns["column-1"].eventIds.length + 1;
-      newItineraryData.events[`event-${index}`] = {
-        id: `event-${index}`,
-        duration: activities[activities.length - 1].duration,
-        content: activities[activities.length - 1].location,
-      };
-      newItineraryData.columns["column-1"].eventIds.push(`event-${index}`);
-      newItineraryData.columns["column-1"].title = date;
-      setItineraryData(newItineraryData);
+        let index = itineraryData.columns["column-1"].eventIds.length + 1;
+        newItineraryData.events[`event-${index}`] = {
+          id: `event-${index}`,
+          duration: activities[activities.length - 1].duration,
+          content: activities[activities.length - 1].location,
+        };
+        newItineraryData.columns["column-1"].eventIds.push(`event-${index}`);
+        newItineraryData.columns["column-1"].title = date;
+        setItineraryData(newItineraryData);
+      }
     }
   }, [activities, date]);
 

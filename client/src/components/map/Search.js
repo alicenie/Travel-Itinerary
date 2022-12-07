@@ -19,7 +19,14 @@ export const addAddress = (address, addMarker) => {
     .catch((error) => console.error("Error", error));
 };
 
-const Search = ({ setCoords, addMarker, onSelect, onChange, address }) => {
+const Search = ({
+  setCoords,
+  addMarker,
+  onSelect,
+  onChange,
+  getLatLng,
+  address,
+}) => {
   // const [address, setAddress] = useState("");
   const handleSelect = (address) => {
     console.log("handle select" + address);
@@ -30,6 +37,7 @@ const Search = ({ setCoords, addMarker, onSelect, onChange, address }) => {
         let lng = results[0].geometry.location.lng();
         console.log(lat);
         console.log(lng);
+        getLatLng({ lat, lng });
         // setCoords({ lat: lat, lng: lng });
         // addMarker(lat, lng);
       })

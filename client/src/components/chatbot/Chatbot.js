@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   fetchMessages,
   addMessages,
+  updateLatLng,
   getAllMessages,
   getActivities,
   getDate,
@@ -16,10 +17,11 @@ const Chatbot = () => {
   const dispatch = useDispatch();
   const messages = useSelector(getAllMessages).messages;
   const activities = useSelector(getActivities);
-  const date = useSelector(getDate);
 
   const [input, setInput] = useState(""); // text in the input box
   const [isInputLocation, setIsInputLocation] = useState(false);
+  const [address, setAddress] = useState("");
+  const [latLng, setLatLng] = useState({ lat: null, lng: null });
 
   useEffect(() => {
     eventQuery("welcomeToMyWebsite");
@@ -94,10 +96,17 @@ const Chatbot = () => {
   };
 
   const handleSelect = (address) => {
-    setInput(address);
+    setAddress(address);
     textQuery(address);
-    setInput("");
   };
+
+  useEffect(() => {
+    console.log(activities);
+    console.log(address);
+    console.log(latLng);
+    dispatch(updateLatLng({ idx: activities.length - 1, latLng }));
+    setAddress("");
+  }, [activities]);
 
   return (
     <div>
@@ -120,8 +129,9 @@ const Chatbot = () => {
         {isInputLocation ? (
           <Search
             onSelect={(address) => handleSelect(address)}
-            onChange={setInput}
-            address={input}
+            onChange={setAddress}
+            getLatLng={setLatLng}
+            address={address}
           />
         ) : (
           <div>

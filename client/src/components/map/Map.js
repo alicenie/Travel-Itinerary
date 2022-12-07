@@ -6,6 +6,8 @@ import {
   InfoWindowF,
   DirectionsRenderer,
 } from "@react-google-maps/api";
+import { useSelector } from "react-redux";
+import { getActivities } from "../../reducers/messages";
 
 import Search from "./Search";
 import { getPlacesData } from "./api/index";
@@ -27,6 +29,21 @@ const Map = () => {
   //   googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   //   libraries: libraries,
   // });
+
+  const activities = useSelector(getActivities);
+  useEffect(() => {
+    console.log("Map.js: ", activities);
+    const newMarkers = activities.map((d) => {
+      if (d.latLng)
+        return {
+          lat: d.latLng.lat,
+          lng: d.latLng.lng,
+          time: new Date(),
+        };
+    });
+    console.log(newMarkers);
+    setMarkers(newMarkers);
+  }, [activities]);
 
   const [coords, setCoords] = useState({ lat: 40.4432, lng: -79.9428 }); // cmu
   // to use for fetching nearby locations
