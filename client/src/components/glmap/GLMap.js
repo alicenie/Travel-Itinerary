@@ -7,13 +7,16 @@ import car from "./car.glb";
 
 var animating = false;
 var keyPressed = null;
+var index = 1;
+
 //TODO replace with dynamic data
 const route = [
   { lat: 40.43901, lng: -79.94795 },
   { lat: 40.4432, lng: -79.94284 },
   { lat: 40.48426, lng: -79.9222 },
+  { lat: 40.44757, lng: -79.93753 },
 ];
-// const GLMap = () => {
+
 const apiOptions = {
   apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   version: "beta",
@@ -37,7 +40,7 @@ const mapSpeedLng = (-79.9222 - firstlng) / 4500;
 // console.log("speed is " + speedlat + ", " + speedlng);
 
 function initWebGLOverlayView(map) {
-  let renderer, loader, scene4, camera4, carModel;
+  let renderer, loader, scene4, camera4, carModel, pinModel;
   let scenes = [];
   let cameras = [];
   const WebGLOverlayView = new window.google.maps.WebGLOverlayView();
@@ -54,10 +57,10 @@ function initWebGLOverlayView(map) {
       directionalLight.position.set(0.5, -1, 0.5);
       scenes[i].add(directionalLight);
       //loading a 3D model
-      // const source = "pin.gltf";
       loader.load(pin, (gltf) => {
         gltf.scene.scale.set(20, 20, 20);
         gltf.scene.rotation.x = (180 * Math.PI) / 180;
+        pinModel = gltf.scene;
         scenes[i].add(gltf.scene);
       });
     }
@@ -68,6 +71,7 @@ function initWebGLOverlayView(map) {
     //scene4.add(ambientLight4);
     scene4.add(directionalLight4);
     //loading a 3D model for car
+    console.log(car);
     loader.load(car, (gltf4) => {
       gltf4.scene.scale.set(20, 20, 20);
       gltf4.scene.rotation.x = (90 * Math.PI) / 180;
@@ -80,6 +84,7 @@ function initWebGLOverlayView(map) {
   };
   //right before rendering
   WebGLOverlayView.onContextRestored = ({ gl }) => {
+    var index = 1;
     renderer = new THREE.WebGLRenderer({
       canvas: gl.canvas,
       context: gl,
@@ -101,6 +106,7 @@ function initWebGLOverlayView(map) {
           keyPressed = "d";
         }
       });
+
       renderer.setAnimationLoop(() => {
         console.log(animating);
         map.moveCamera({
@@ -146,13 +152,18 @@ function initWebGLOverlayView(map) {
           mapOptions.tilt += 2;
         }
         if (
-          mapOptions.center.lat < 40.48426 &&
-          mapOptions.center.lng < -79.9222 &&
+          mapOptions.center.lat < route[index].lat &&
+          mapOptions.center.lng < route[index].lng &&
           mapOptions.tilt === 90 &&
           animating === true
         ) {
+          console.log(mapOptions.center.lat);
           mapOptions.center.lat += mapSpeedLat;
           mapOptions.center.lng += mapSpeedLng;
+          firstlat += mapSpeedLat;
+          firstlng += mapSpeedLng;
+        } else if (index < route.length - 1) {
+          index += 1;
         }
       });
     };
@@ -178,34 +189,11 @@ function initWebGLOverlayView(map) {
       let matrix = transformer.fromLatLngAltitude(latLngAltitudeLiteral);
       cameras[i].projectionMatrix = new THREE.Matrix4().fromArray(matrix);
     }
-    // const latLngAltitudeLiteral = {
-    //   lat: 40.43901,
-    //   lng: -79.94795,
-    //   altitude: 60,
-    // };
-    // const matrix = transformer.fromLatLngAltitude(latLngAltitudeLiteral);
-    // camera.projectionMatrix = new THREE.Matrix4().fromArray(matrix);
-
-    // const latLngAltitudeLiteral2 = {
-    //   lat: 40.4432,
-    //   lng: -79.94284,
-    //   altitude: 60,
-    // };
-    // const matrix2 = transformer.fromLatLngAltitude(latLngAltitudeLiteral2);
-    // camera2.projectionMatrix = new THREE.Matrix4().fromArray(matrix2);
-
-    // const latLngAltitudeLiteral3 = {
-    //   lat: 40.48426,
-    //   lng: -79.9222,
-    //   altitude: 60,
-    // };
-    // const matrix3 = transformer.fromLatLngAltitude(latLngAltitudeLiteral3);
-    // camera3.projectionMatrix = new THREE.Matrix4().fromArray(matrix3);
 
     const latLngAltitudeLiteral4 = {
-      lat: firstlat,
-      lng: firstlng,
-      altitude: 20,
+      lat: route[0].lat,
+      lng: route[0].lng,
+      altitude: 60,
     };
     const matrix4 = transformer.fromLatLngAltitude(latLngAltitudeLiteral4);
     camera4.projectionMatrix = new THREE.Matrix4().fromArray(matrix4);
@@ -219,12 +207,10 @@ function initWebGLOverlayView(map) {
   // WebGLOverlayView code goes here
 }
 
-//render code
 async function initMap() {
   const mapDiv = document.getElementById("glmap");
   const apiLoader = new Loader(apiOptions);
   await apiLoader.load();
-  //this is a map instance.
   return new window.google.maps.Map(mapDiv, mapOptions);
 }
 
