@@ -66,27 +66,7 @@ const Chatbot = () => {
 
   const eventQuery = async (event) => {
     console.log(event);
-    // try {
-    //   const response = await Axios.post(
-    //     "http://localhost:8080/api/agent/event",
-    //     { event }
-    //   );
-    //   const content = response.data.fulfillmentMessages[0];
-    //   let conversation = {
-    //     who: "bot",
-    //     content: content,
-    //   };
-    //   console.log(conversation);
     dispatch(fetchMessages({ route: "event", message: event }));
-    // } catch (error) {
-    //   let conversation = {
-    //     who: "bot",
-    //     content: { text: { text: "Error just occured" } },
-    //   };
-    //   console.log(conversation);
-    //   //   dispatch(saveMessage(conversation));
-    //   console.log(error);
-    // }
   };
 
   const handleSendMsg = (e) => {
@@ -135,7 +115,7 @@ const Chatbot = () => {
           value={input}
         />
         <button onClick={handleSendMsg}>Send</button>
-        {/* <Search /> */}
+        <Search />
       </div>
     </div>
   );

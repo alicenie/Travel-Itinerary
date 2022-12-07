@@ -11,22 +11,22 @@ import Search from "./Search";
 import { getPlacesData } from "./api/index";
 
 const zoomLevel = 16;
-const libraries = ["places"];
+// const libraries = ["places"];
 const mapContainerStyle = {
-  position: 'absolute',  
-  width: '100%',
-  height: '100%'
-}
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+};
 const options = {
   disableDefaultUI: true,
   gestureHandling: "cooperative",
 };
 
 const Map = () => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries: libraries,
-  });
+  // const { isLoaded, loadError } = useLoadScript({
+  //   googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  //   libraries: libraries,
+  // });
 
   const [coords, setCoords] = useState({ lat: 40.4432, lng: -79.9428 }); // cmu
   // to use for fetching nearby locations
@@ -134,36 +134,39 @@ const Map = () => {
   // place marker at position idx in markers list
   const reOrderMarker = (marker, idx) => {
     console.log("reorder marker");
-    let markersFiltered = markers.filter(elem => {
-        return (elem.lat !== marker.lat 
-              || elem.lng !== marker.lng);
-      });
+    let markersFiltered = markers.filter((elem) => {
+      return elem.lat !== marker.lat || elem.lng !== marker.lng;
+    });
     markersFiltered.splice(idx, 0, marker);
     setMarkers(markersFiltered);
-    
+
     let markerToMove = markerObjs.find((elem) => {
-      return (marker.lat === elem.getPosition().lat()
-            && marker.lng === elem.getPosition().lng())
-      });
-    let newMarkerObjs = markerObjs.filter(elem => {
-        return (elem.getPosition().lat() !== marker.lat
-              || elem.getPosition().lng() !== marker.lng)
-      });
+      return (
+        marker.lat === elem.getPosition().lat() &&
+        marker.lng === elem.getPosition().lng()
+      );
+    });
+    let newMarkerObjs = markerObjs.filter((elem) => {
+      return (
+        elem.getPosition().lat() !== marker.lat ||
+        elem.getPosition().lng() !== marker.lng
+      );
+    });
     newMarkerObjs.splice(idx, 0, markerToMove);
     setMarkerObjs(newMarkerObjs);
 
     setSelectedMarker(null);
-  }
+  };
 
-  if (loadError) return "Error loading Google Maps";
-  if (!isLoaded) return "Loading Google Maps...";
+  // if (loadError) return "Error loading Google Maps";
+  // if (!isLoaded) return "Loading Google Maps...";
   return (
     <div>
       <Search setCoords={setCoords} addMarker={addMarker} />
 
       <GoogleMap
         id="marker-example"
-        mapContainerStyle={mapContainerStyle} 
+        mapContainerStyle={mapContainerStyle}
         zoom={zoomLevel}
         center={coords}
         options={options}
@@ -178,19 +181,19 @@ const Map = () => {
       >
         {/* draw directions on top of the map */}
         {/* TODO: might break when you try to delete the 1st/2nd stop */}
-        { directions && (
-            <DirectionsRenderer
-              directions={directions}
-              options={{
-                polyLineOptions: {
-                  // zIndex:50,
-                  strokeWeight:5
-                },
-                preserveViewport: true,
-                suppressMarkers: true
-              }} />
-            )
-        }
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polyLineOptions: {
+                // zIndex:50,
+                strokeWeight: 5,
+              },
+              preserveViewport: true,
+              suppressMarkers: true,
+            }}
+          />
+        )}
 
         {/* draw markers onto the map */}
         {markers.map((m) => {
@@ -198,7 +201,7 @@ const Map = () => {
             <MarkerF
               key={m.time.toISOString()}
               onLoad={onMarkerLoad}
-              position={{lat:m.lat, lng:m.lng}}
+              position={{ lat: m.lat, lng: m.lng }}
               onClick={() => {
                 setSelectedMarker(m);
               }}
@@ -216,50 +219,51 @@ const Map = () => {
             }}
           >
             <div>
-              <select onChange={(e) => {
-                reOrderMarker(selectedMarker, parseInt(e.target.value) - 1);
-              }}>
-                {
-                  markers.map((m, i) => {
-                    let selectedMarkerIdx = markers.findIndex((elem) => {
-                        return (selectedMarker.lat === elem.lat 
-                             && selectedMarker.lng === elem.lng)
-                    });
-                    if (selectedMarkerIdx === i) {
-                      return (
-                        <option 
-                          value={(i+1).toString()} 
-                          selected
-                          >
-                          {(i+1).toString()}
-                        </option>
-                      )
-                    } else {
-                      return (
-                        <option 
-                          value={(i+1).toString()}
-                          >
-                          {(i+1).toString()}
-                        </option>
-                      )
-                    }
-                  })
-                }
+              <select
+                onChange={(e) => {
+                  reOrderMarker(selectedMarker, parseInt(e.target.value) - 1);
+                }}
+              >
+                {markers.map((m, i) => {
+                  let selectedMarkerIdx = markers.findIndex((elem) => {
+                    return (
+                      selectedMarker.lat === elem.lat &&
+                      selectedMarker.lng === elem.lng
+                    );
+                  });
+                  if (selectedMarkerIdx === i) {
+                    return (
+                      <option value={(i + 1).toString()} selected>
+                        {(i + 1).toString()}
+                      </option>
+                    );
+                  } else {
+                    return (
+                      <option value={(i + 1).toString()}>
+                        {(i + 1).toString()}
+                      </option>
+                    );
+                  }
+                })}
               </select>
 
-              <button 
+              <button
                 onClick={() => {
                   // update markers list
-                  let newMarkers = markers.filter(elem => {
-                      return (elem.lat !== selectedMarker.lat 
-                           || elem.lng !== selectedMarker.lng);
+                  let newMarkers = markers.filter((elem) => {
+                    return (
+                      elem.lat !== selectedMarker.lat ||
+                      elem.lng !== selectedMarker.lng
+                    );
                   });
                   setMarkers(newMarkers);
 
-                  // update markers objects 
-                  let newMarkerObjs = markerObjs.filter(marker => {
-                    return (marker.getPosition().lat() !== selectedMarker.lat
-                         || marker.getPosition().lng() !== selectedMarker.lng)
+                  // update markers objects
+                  let newMarkerObjs = markerObjs.filter((marker) => {
+                    return (
+                      marker.getPosition().lat() !== selectedMarker.lat ||
+                      marker.getPosition().lng() !== selectedMarker.lng
+                    );
                   });
                   setMarkerObjs(newMarkerObjs);
 
