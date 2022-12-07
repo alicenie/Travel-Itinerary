@@ -41,6 +41,9 @@ const Map = () => {
           time: new Date(),
         };
     });
+    if (newMarkers.length === 1 && newMarkers.at(0)) {
+      mapRef.current.panTo({lat: newMarkers.at(0).lat, lng: newMarkers.at(0).lng});
+    }
     setMarkerObjs([]);
     setMarkers(newMarkers);
   }, [activities]);
