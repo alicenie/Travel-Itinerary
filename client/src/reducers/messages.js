@@ -72,8 +72,8 @@ export const messagesSlice = createSlice({
 });
 
 export const getAllMessages = (state) => state.messages;
-export const getActivities = (state) => state.activities;
-export const getDate = (state) => state.date;
+export const getActivities = (state) => state.messages.activities;
+export const getDate = (state) => state.messages.date;
 export const { addMessages } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

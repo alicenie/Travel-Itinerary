@@ -9,6 +9,7 @@ import {
   getDate,
 } from "../../reducers/messages";
 import Message from "./Message";
+import Search from "../map/Search";
 
 const Chatbot = () => {
   const dispatch = useDispatch();
@@ -134,6 +135,7 @@ const Chatbot = () => {
           value={input}
         />
         <button onClick={handleSendMsg}>Send</button>
+        {/* <Search /> */}
       </div>
     </div>
   );
