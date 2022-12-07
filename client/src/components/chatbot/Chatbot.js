@@ -22,15 +22,14 @@ const Chatbot = () => {
   const [isInputLocation, setIsInputLocation] = useState(false);
   const [address, setAddress] = useState("");
   const [latLng, setLatLng] = useState({ lat: null, lng: null });
+  const [route, setRoute] = useState([]);
 
   useEffect(() => {
     eventQuery("welcomeToMyWebsite");
-    console.log("useeffect");
   }, []);
 
   useEffect(() => {
     console.log(messages);
-    console.log(messages[messages.length - 1]?.intent);
     if (
       messages[messages.length - 1]?.intent == "AskCity" ||
       messages[messages.length - 1]?.intent == "AddActivity - yes"
@@ -39,7 +38,8 @@ const Chatbot = () => {
     else setIsInputLocation(false);
 
     if (messages[messages.length - 1]?.intent == "AddActivity - no - yes") {
-      initGLMap();
+      console.log(route);
+      initGLMap(route);
     }
   }, [messages]);
 
@@ -101,11 +101,21 @@ const Chatbot = () => {
   };
 
   useEffect(() => {
+    console.log("useEffect, activities");
     console.log(activities);
     console.log(address);
     console.log(latLng);
     dispatch(updateLatLng({ idx: activities.length - 1, latLng }));
     setAddress("");
+
+    const newRoute = activities.map((d) => {
+      if (d.latLng)
+        return {
+          lat: d.latLng.lat,
+          lng: d.latLng.lng,
+        };
+    });
+    setRoute(newRoute);
   }, [activities]);
 
   return (

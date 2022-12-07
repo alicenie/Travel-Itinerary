@@ -29,14 +29,14 @@ const Search = ({
 }) => {
   // const [address, setAddress] = useState("");
   const handleSelect = (address) => {
-    console.log("handle select" + address);
+    // console.log("handle select" + address);
     geocodeByAddress(address)
       .then((results) => {
         // console.log(results[0]);
         let lat = results[0].geometry.location.lat();
         let lng = results[0].geometry.location.lng();
-        console.log(lat);
-        console.log(lng);
+        // console.log(lat);
+        // console.log(lng);
         getLatLng({ lat, lng });
         // setCoords({ lat: lat, lng: lng });
         // addMarker(lat, lng);
@@ -55,7 +55,7 @@ const Search = ({
         onSelect={(address) => {
           onSelect(address);
           handleSelect(address);
-          console.log("select" + address);
+          // console.log("select" + address);
         }}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (

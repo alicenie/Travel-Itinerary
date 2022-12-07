@@ -10,36 +10,53 @@ var keyPressed = null;
 var index = 1;
 
 //TODO replace with dynamic data
-const route = [
-  { lat: 40.43901, lng: -79.94795 },
-  { lat: 40.4432, lng: -79.94284 },
-  { lat: 40.48426, lng: -79.9222 },
-  { lat: 40.44757, lng: -79.93753 },
-];
+// const route = [
+//   { lat: 40.43901, lng: -79.94795 },
+//   { lat: 40.4432, lng: -79.94284 },
+//   { lat: 40.48426, lng: -79.9222 },
+//   { lat: 40.44757, lng: -79.93753 },
+// ];
 
 const apiOptions = {
   apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   version: "beta",
 };
 
-var firstlat = 40.43901;
-var firstlng = -79.94795;
-const mapOptions = {
-  tilt: 0,
-  heading: 45,
-  zoom: 18,
-  center: { lat: route[0].lat, lng: route[0].lng },
-  mapId: "58142c7ff0f7264d",
-};
+// var firstlat = 40.43901;
+// var firstlng = -79.94795;
+// const mapOptions = {
+//   tilt: 0,
+//   heading: 45,
+//   zoom: 18,
+//   center: { lat: route[0].lat, lng: route[0].lng },
+//   mapId: "58142c7ff0f7264d",
+// };
 
-const speedlat = (40.48426 - firstlat) / 450000;
-const speedlng = (-79.9222 - firstlng) / 450000;
+// const speedlat = (40.48426 - firstlat) / 450000;
+// const speedlng = (-79.9222 - firstlng) / 450000;
 
-const mapSpeedLat = (40.48426 - firstlat) / 4500;
-const mapSpeedLng = (-79.9222 - firstlng) / 4500;
-// console.log("speed is " + speedlat + ", " + speedlng);
+// const mapSpeedLat = (40.48426 - firstlat) / 4500;
+// const mapSpeedLng = (-79.9222 - firstlng) / 4500;
+// // console.log("speed is " + speedlat + ", " + speedlng);
 
-function initWebGLOverlayView(map) {
+function initWebGLOverlayView(map, route) {
+  var firstlat = 40.43901;
+  var firstlng = -79.94795;
+  const mapOptions = {
+    tilt: 0,
+    heading: 45,
+    zoom: 18,
+    center: { lat: route[0].lat, lng: route[0].lng },
+    mapId: "58142c7ff0f7264d",
+  };
+
+  const speedlat = (40.48426 - firstlat) / 450000;
+  const speedlng = (-79.9222 - firstlng) / 450000;
+
+  const mapSpeedLat = (40.48426 - firstlat) / 4500;
+  const mapSpeedLng = (-79.9222 - firstlng) / 4500;
+  // console.log("speed is " + speedlat + ", " + speedlng);
+
   let renderer, loader, scene4, camera4, carModel, pinModel;
   let scenes = [];
   let cameras = [];
@@ -207,16 +224,24 @@ function initWebGLOverlayView(map) {
   // WebGLOverlayView code goes here
 }
 
-async function initMap() {
+async function initMap(route) {
+  const mapOptions = {
+    tilt: 0,
+    heading: 45,
+    zoom: 18,
+    center: { lat: route[0].lat, lng: route[0].lng },
+    mapId: "58142c7ff0f7264d",
+  };
+
   const mapDiv = document.getElementById("glmap");
   const apiLoader = new Loader(apiOptions);
   await apiLoader.load();
   return new window.google.maps.Map(mapDiv, mapOptions);
 }
 
-const initGLMap = async () => {
-  const map = await initMap();
-  initWebGLOverlayView(map);
+const initGLMap = async (route) => {
+  const map = await initMap(route);
+  initWebGLOverlayView(map, route);
 };
 
 export default initGLMap;

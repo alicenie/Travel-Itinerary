@@ -45,7 +45,7 @@ function App() {
 
     // update itinerary data
     if (date !== "" && activities.length > 0) {
-      // only update once after latlng is updated
+      // only update after latlng is updated
       if (activities[activities.length - 1].latLng) {
         let newItineraryData = { ...itineraryData };
 
