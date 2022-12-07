@@ -9,7 +9,7 @@ import { getAllMessages, getActivities, getDate } from "./reducers/messages";
 
 function App() {
   const layout = [
-    { i: "map", x: 0, y: 0, w: 3, h: 2, static: true },
+    { i: "map", x: 0, y: 0, w: 4, h: 10, static: true },
     { i: "itinerary", x: 4, y: 0, w: 4, h: 2, static: true },
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
@@ -38,7 +38,7 @@ function App() {
         rowHeight={30}
         width={1200}
       >
-        {/* <div key="map"><Map /></div> */}
+        <div key="map"><Map /></div>
         <div key="itinerary">
           <Itinerary
             itineraryData={itineraryData}

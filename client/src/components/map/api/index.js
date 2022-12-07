@@ -1,7 +1,7 @@
 import axios from "axios";
 const URL = 'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary';
 
-
+// use travel advisor api to get travel destination recommendations 
 export const getPlacesData = async (sw, ne) => {
   try { 
     console.log("sw " + sw);
