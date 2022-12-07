@@ -79,10 +79,10 @@ const Event = (props) => {
                         <SideIndicator src={dragIndicator} duration={props.event.duration} eventId={props.event.id}></SideIndicator>
                     </div>
                     <div>
-                        <Duration id={"event-duration"+props.event.id} type="text" defaultValue={props.event.duration} duration={props.event.duration} eventId={props.event.id}></Duration>
+                        <Duration id={"event-duration "+props.event.id} type="text" defaultValue={props.event.duration} duration={props.event.duration} eventId={props.event.id}></Duration>
                         <Confirm isDragging={snapshot.isDragging} onClick={() => {
-                            window.localStorage.setItem("duration"+props.event.id, document.getElementById("event-duration"+props.event.id).value.split(" ")[0]);
-                            let duration = window.localStorage.getItem("duration"+props.event.id) < 1 ? 1 : window.localStorage.getItem("duration"+props.event.id);
+                            window.localStorage.setItem("duration "+props.event.id, document.getElementById("event-duration "+props.event.id).value.split(" ")[0]);
+                            let duration = window.localStorage.getItem("duration "+props.event.id) < 1 ? 1 : window.localStorage.getItem("duration "+props.event.id);
                             document.getElementById("eventContainer-"+props.event.id).style.height = duration * 80 + "px";
                         }}>✔️</Confirm>
                         <Content className="event-content" isDragging={snapshot.isDragging}>{props.event.content}</Content>
