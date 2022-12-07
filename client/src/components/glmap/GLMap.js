@@ -164,35 +164,162 @@ function initWebGLOverlayView(map, route) {
           }
         });
 
+        var targetDir;
+        if (
+          route[index].lat - route[index - 1].lat < 0 &&
+          route[index].lng - route[index - 1].lng < 0
+        ) {
+          targetDir = "SouthWestOf";
+        } else if (
+          route[index].lat - route[index - 1].lat < 0 &&
+          route[index].lng - route[index - 1].lng > 0
+        ) {
+          targetDir = "SouthEastOf";
+        } else if (
+          route[index].lat - route[index - 1].lat > 0 &&
+          route[index].lng - route[index - 1].lng < 0
+        ) {
+          targetDir = "NorthWestOf";
+        } else if (
+          route[index].lat - route[index - 1].lat > 0 &&
+          route[index].lng - route[index - 1].lng > 0
+        ) {
+          targetDir = "NorthEastOf";
+        }
         //walkthrough animation
         //TODO add buttons to control tilt of camera
         if (mapOptions.tilt < 90 && animating === true) {
           mapOptions.tilt += 2;
         }
-        if (
-          mapOptions.center.lat < route[index].lat &&
-          mapOptions.center.lng < route[index].lng &&
-          mapOptions.tilt === 90 &&
-          animating === true
-        ) {
-          console.log(mapOptions.center.lat);
-          console.log("index: " + index + ", target lat: " + route[index].lat);
-          mapOptions.center.lat += mapSpeedLat;
-          mapOptions.center.lng += mapSpeedLng;
-          firstlat += mapSpeedLat;
-          firstlng += mapSpeedLng;
-        } else if (
-          (mapOptions.center.lat > route[index].lat ||
-            mapOptions.center.lng > route[index].lng) &&
-          mapOptions.tilt === 90 &&
-          animating === true &&
-          index < route.length
-        ) {
-          //TODO need to detect if target is left/right (speed would reverse!)
-          console.log("Now im here");
-          index += 1;
-          mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
-          mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
+
+        if (targetDir === "NorthEastOf") {
+          if (
+            mapOptions.center.lat < route[index].lat &&
+            mapOptions.center.lng < route[index].lng &&
+            mapOptions.tilt === 90 &&
+            animating === true
+          ) {
+            console.log(mapOptions.center.lat);
+            console.log(
+              "index: " +
+                index +
+                ", target lat: " +
+                route[index].lat +
+                ", " +
+                targetDir
+            );
+            mapOptions.center.lat += mapSpeedLat;
+            mapOptions.center.lng += mapSpeedLng;
+            firstlat += mapSpeedLat;
+            firstlng += mapSpeedLng;
+          } else if (
+            (mapOptions.center.lat >= route[index].lat ||
+              mapOptions.center.lng >= route[index].lng) &&
+            mapOptions.tilt === 90 &&
+            animating === true &&
+            index < route.length - 1
+          ) {
+            console.log("Now im here " + route[index - 1].lat);
+            index += 1;
+            mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+            mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
+          }
+        } else if (targetDir === "NorthWestOf") {
+          if (
+            mapOptions.center.lat < route[index].lat &&
+            mapOptions.center.lng > route[index].lng &&
+            mapOptions.tilt === 90 &&
+            animating === true
+          ) {
+            console.log(mapOptions.center.lat);
+            console.log(
+              "index: " +
+                index +
+                ", target lat: " +
+                route[index].lat +
+                ", " +
+                targetDir
+            );
+            mapOptions.center.lat += mapSpeedLat;
+            mapOptions.center.lng += mapSpeedLng;
+            firstlat += mapSpeedLat;
+            firstlng += mapSpeedLng;
+          } else if (
+            (mapOptions.center.lat >= route[index].lat ||
+              mapOptions.center.lng <= route[index].lng) &&
+            mapOptions.tilt === 90 &&
+            animating === true &&
+            index < route.length - 1
+          ) {
+            console.log("Now im here " + route[index - 1].lat);
+            index += 1;
+            mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+            mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
+          }
+        } else if (targetDir === "SouthEastOf") {
+          if (
+            mapOptions.center.lat > route[index].lat &&
+            mapOptions.center.lng < route[index].lng &&
+            mapOptions.tilt === 90 &&
+            animating === true
+          ) {
+            console.log(mapOptions.center.lat);
+            console.log(
+              "index: " +
+                index +
+                ", target lat: " +
+                route[index].lat +
+                ", " +
+                targetDir
+            );
+            mapOptions.center.lat += mapSpeedLat;
+            mapOptions.center.lng += mapSpeedLng;
+            firstlat += mapSpeedLat;
+            firstlng += mapSpeedLng;
+          } else if (
+            (mapOptions.center.lat <= route[index].lat ||
+              mapOptions.center.lng >= route[index].lng) &&
+            mapOptions.tilt === 90 &&
+            animating === true &&
+            index < route.length - 1
+          ) {
+            console.log("Now im here " + route[index - 1].lat);
+            index += 1;
+            mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+            mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
+          }
+        } else if (targetDir === "SouthWestOf") {
+          if (
+            mapOptions.center.lat > route[index].lat &&
+            mapOptions.center.lng > route[index].lng &&
+            mapOptions.tilt === 90 &&
+            animating === true
+          ) {
+            console.log(mapOptions.center.lat);
+            console.log(
+              "index: " +
+                index +
+                ", target lat: " +
+                route[index].lat +
+                ", " +
+                targetDir
+            );
+            mapOptions.center.lat += mapSpeedLat;
+            mapOptions.center.lng += mapSpeedLng;
+            firstlat += mapSpeedLat;
+            firstlng += mapSpeedLng;
+          } else if (
+            (mapOptions.center.lat <= route[index].lat ||
+              mapOptions.center.lng <= route[index].lng) &&
+            mapOptions.tilt === 90 &&
+            animating === true &&
+            index < route.length - 1
+          ) {
+            console.log("Now im here " + route[index - 1].lat);
+            index += 1;
+            mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+            mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
+          }
         }
       });
     };
@@ -237,6 +364,7 @@ function initWebGLOverlayView(map, route) {
 }
 
 async function initMap(route) {
+  console.log(route);
   const mapOptions = {
     tilt: 0,
     heading: 45,
@@ -252,6 +380,7 @@ async function initMap(route) {
 }
 
 const initGLMap = async (route) => {
+  console.log(route);
   const map = await initMap(route);
   initWebGLOverlayView(map, route);
 };
