@@ -10,20 +10,26 @@ const Container = styled.div`
     border-radius: 5px;
 `;
 const Title = styled.h2`
-    padding: 10px;
+    padding-bottom: 10px;
+    margin-top: 0px;
+    padding-left: 15px;
     padding-top: 20px;
+    margin-bottom: 5px;
     color: white;
 `;
 const Date = styled.h3`
     margin-top: 0;
+    margin-left: 10px;
+    margin-bottom: 0;
     padding: 10px;
     color: white;
 `;
 const EventList = styled.div`
     margin: 10px;
+    margin-top: 0;
     padding: 10px;
     border-radius: 5px;
-    background-color: ${props => (props.isDraggingOver ? '#A8CDDA' : 'white')};
+    background-color: ${props => (props.isDraggingOver ? '#A8CDDA' : 'transparent')};
 `;
 
 class InnerList extends React.Component {
@@ -59,13 +65,6 @@ class DateText extends React.Component {
     }
 }
 
-const getDuration = (event) => {
-    let duration = event.duration;
-    if (duration === '') {
-        duration = 0;
-    }
-    return duration;
-}
 
 export default class Column extends React.Component {
     render() {
