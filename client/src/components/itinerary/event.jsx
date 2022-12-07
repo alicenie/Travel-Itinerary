@@ -17,12 +17,10 @@ const Container = styled.div`
     box-shadow: 5px 5px 10px 2px rgba(0,0,0,.2);
     height: ${props => {
         let duration = window.localStorage.getItem("duration "+props.eventId) ? 
-         props.duration.split(" ")[0] : window.localStorage.getItem("duration "+props.eventId);
+            window.localStorage.getItem("duration "+props.eventId) : props.duration.split(" ")[0];
         if (duration < 1) {
-            window.localStorage.setItem("duration "+props.eventId, duration);
             return 80;
         } else {
-            window.localStorage.setItem("duration "+props.eventId, duration);
             return duration * 80;
         }
     }}px;
@@ -92,14 +90,5 @@ const Event = (props) => {
         </Draggable>
     );
 }
-// export default class Event extends React.Component {
-//     state = {
-//         duration: this.props.event.duration
-//     };
-
-//     render () {
-        
-//     }
-// }
 
 export default Event;
