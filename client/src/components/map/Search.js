@@ -22,17 +22,16 @@ export const addAddress = (address, addMarker) => {
 const Search = ({ setCoords, addMarker, onSelect, onChange, address }) => {
   // const [address, setAddress] = useState("");
   const handleSelect = (address) => {
-    console.log(address);
+    console.log("handle select" + address);
     geocodeByAddress(address)
       .then((results) => {
-        console.log(results[0]);
-        getLatLng(results[0]);
-      })
-      .then((latLng) => {
-        console.log("Success", latLng);
-        // setAddress(address);
-        setCoords({ lat: latLng.lat, lng: latLng.lng });
-        addMarker(latLng.lat, latLng.lng); // can remove later
+        // console.log(results[0]);
+        let lat = results[0].geometry.location.lat();
+        let lng = results[0].geometry.location.lng();
+        console.log(lat);
+        console.log(lng);
+        // setCoords({ lat: lat, lng: lng });
+        // addMarker(lat, lng);
       })
       .catch((error) => console.error("Error", error));
   };
@@ -47,7 +46,8 @@ const Search = ({ setCoords, addMarker, onSelect, onChange, address }) => {
         }}
         onSelect={(address) => {
           onSelect(address);
-          console.log(address);
+          handleSelect(address);
+          console.log("select" + address);
         }}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
