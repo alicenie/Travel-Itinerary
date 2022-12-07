@@ -53,8 +53,8 @@ function initWebGLOverlayView(map, route) {
   const speedlat = (40.48426 - firstlat) / 450000;
   const speedlng = (-79.9222 - firstlng) / 450000;
 
-  const mapSpeedLat = (40.48426 - firstlat) / 4500;
-  const mapSpeedLng = (-79.9222 - firstlng) / 4500;
+  // const mapSpeedLat = (40.48426 - firstlat) / 4500;
+  // const mapSpeedLng = (-79.9222 - firstlng) / 4500;
   // console.log("speed is " + speedlat + ", " + speedlng);
 
   let renderer, loader, scene4, camera4, carModel, pinModel;
@@ -109,8 +109,11 @@ function initWebGLOverlayView(map, route) {
       ...gl.getContextAttributes(),
     });
     renderer.autoClear = false;
+
     //TODO make this onclick
     loader.manager.onLoad = () => {
+      var mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
+      var mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
       document.addEventListener("keydown", (e) => {
         if (e.key === "m") {
           animating = animating === true ? false : true;
@@ -169,7 +172,7 @@ function initWebGLOverlayView(map, route) {
           route[index].lat - route[index - 1].lat < 0 &&
           route[index].lng - route[index - 1].lng < 0
         ) {
-          targetDir = "SouthWestOf";
+          targetDir = "NorthWestOf";
         } else if (
           route[index].lat - route[index - 1].lat < 0 &&
           route[index].lng - route[index - 1].lng > 0
@@ -179,7 +182,7 @@ function initWebGLOverlayView(map, route) {
           route[index].lat - route[index - 1].lat > 0 &&
           route[index].lng - route[index - 1].lng < 0
         ) {
-          targetDir = "NorthWestOf";
+          targetDir = "SouthWestOf";
         } else if (
           route[index].lat - route[index - 1].lat > 0 &&
           route[index].lng - route[index - 1].lng > 0
@@ -224,7 +227,7 @@ function initWebGLOverlayView(map, route) {
             mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
             mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
           }
-        } else if (targetDir === "NorthWestOf") {
+        } else if (targetDir === "SouthWestOf") {
           if (
             mapOptions.center.lat < route[index].lat &&
             mapOptions.center.lng > route[index].lng &&
@@ -288,7 +291,7 @@ function initWebGLOverlayView(map, route) {
             mapSpeedLat = (route[index].lat - route[index - 1].lat) / 4500;
             mapSpeedLng = (route[index].lng - route[index - 1].lng) / 4500;
           }
-        } else if (targetDir === "SouthWestOf") {
+        } else if (targetDir === "NorthWestOf") {
           if (
             mapOptions.center.lat > route[index].lat &&
             mapOptions.center.lng > route[index].lng &&
