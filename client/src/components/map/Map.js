@@ -66,6 +66,7 @@ const Map = () => {
   };
 
   const addMarker = (lat, lng) => {
+    console.log("ADDMARKER");
     setMarkers((current) => [
       ...current,
       {
@@ -78,6 +79,7 @@ const Map = () => {
 
   // update directions based on markers list
   useEffect(() => {
+    console.log("MARKERS CHANGE VALUE");
     if (markers.length <= 1) {
       setDirections(null);
     } else if (markers.length === 2) {
@@ -205,7 +207,7 @@ const Map = () => {
                 // zIndex:50,
                 strokeWeight: 5,
               },
-              preserveViewport: true,
+              preserveViewport: false,
               suppressMarkers: true,
             }}
           />
