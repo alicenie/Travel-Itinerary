@@ -180,7 +180,6 @@ const Map = () => {
         }}
       >
         {/* draw directions on top of the map */}
-        {/* TODO: might break when you try to delete the 1st/2nd stop */}
         {directions && (
           <DirectionsRenderer
             directions={directions}
