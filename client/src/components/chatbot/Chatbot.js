@@ -10,6 +10,7 @@ import {
 } from "../../reducers/messages";
 import Message from "./Message";
 import Search from "../map/Search";
+import initGLMap from "../glmap/GLMap";
 
 const Chatbot = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,7 @@ const Chatbot = () => {
   const date = useSelector(getDate);
 
   const [input, setInput] = useState(""); // text in the input box
+  const [isInputLocation, setIsInputLocation] = useState(false);
 
   useEffect(() => {
     eventQuery("welcomeToMyWebsite");
@@ -26,8 +28,17 @@ const Chatbot = () => {
 
   useEffect(() => {
     console.log(messages);
-    console.log(date);
-    console.log(activities);
+    console.log(messages[messages.length - 1]?.intent);
+    if (
+      messages[messages.length - 1]?.intent == "AskCity" ||
+      messages[messages.length - 1]?.intent == "AddActivity - yes"
+    )
+      setIsInputLocation(true);
+    else setIsInputLocation(false);
+
+    if (messages[messages.length - 1]?.intent == "AddActivity - no - yes") {
+      initGLMap();
+    }
   }, [messages]);
 
   const textQuery = async (message) => {
@@ -36,6 +47,7 @@ const Chatbot = () => {
       content: {
         text: { text: message },
       },
+      intent: null,
     };
     dispatch(addMessages(conversation));
     dispatch(fetchMessages({ route: "text-input", message: message }));
@@ -81,6 +93,12 @@ const Chatbot = () => {
     }
   };
 
+  const handleSelect = (address) => {
+    setInput(address);
+    textQuery(address);
+    setInput("");
+  };
+
   return (
     <div>
       <h3>Chatbot</h3>
@@ -99,23 +117,32 @@ const Chatbot = () => {
               })
             : null}
         </div>
-        <input
-          style={{
-            margin: 0,
-            width: "100%",
-            height: 50,
-            borderRadius: "4px",
-            padding: "5px",
-            fontSize: "1rem",
-          }}
-          placeholder="Send a message..."
-          onChange={(e) => setInput(e.target.value)}
-          onKeyUp={handleSendMsg}
-          type="text"
-          value={input}
-        />
-        <button onClick={handleSendMsg}>Send</button>
-        <Search />
+        {isInputLocation ? (
+          <Search
+            onSelect={(address) => handleSelect(address)}
+            onChange={setInput}
+            address={input}
+          />
+        ) : (
+          <div>
+            <input
+              style={{
+                margin: 0,
+                width: "100%",
+                height: 50,
+                borderRadius: "4px",
+                padding: "5px",
+                fontSize: "1rem",
+              }}
+              placeholder="Send a message..."
+              onChange={(e) => setInput(e.target.value)}
+              onKeyUp={handleSendMsg}
+              type="text"
+              value={input}
+            />
+            <button onClick={handleSendMsg}>Send</button>
+          </div>
+        )}
       </div>
     </div>
   );

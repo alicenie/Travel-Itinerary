@@ -19,17 +19,18 @@ export const addAddress = (address, addMarker) => {
     .catch((error) => console.error("Error", error));
 };
 
-const Search = ({ setCoords, addMarker }) => {
-  const [address, setAddress] = useState("");
+const Search = ({ setCoords, addMarker, onSelect, onChange, address }) => {
+  // const [address, setAddress] = useState("");
   const handleSelect = (address) => {
     console.log(address);
     geocodeByAddress(address)
       .then((results) => {
+        console.log(results[0]);
         getLatLng(results[0]);
       })
       .then((latLng) => {
         console.log("Success", latLng);
-        setAddress(address);
+        // setAddress(address);
         setCoords({ lat: latLng.lat, lng: latLng.lng });
         addMarker(latLng.lat, latLng.lng); // can remove later
       })
@@ -41,9 +42,13 @@ const Search = ({ setCoords, addMarker }) => {
       <PlacesAutocomplete
         value={address}
         onChange={(address) => {
-          setAddress(address);
+          // setAddress(address);
+          onChange(address);
         }}
-        onSelect={handleSelect}
+        onSelect={(address) => {
+          onSelect(address);
+          console.log(address);
+        }}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>

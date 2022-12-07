@@ -11,25 +11,26 @@ export const fetchMessages = createAsyncThunk(
         `http://localhost:8080/api/agent/${route}`,
         { message }
       );
-
       console.log(response.data);
-      for (let content of response.data.fulfillmentMessages) {
-        conversations = conversations.concat({
-          who: "bot",
-          content: content,
-        });
-      }
-
       const intent = response.data.intent.displayName;
       const parameters = response.data.allRequiredParamsPresent
         ? response.data.parameters.fields
         : null;
+
+      for (let content of response.data.fulfillmentMessages) {
+        conversations = conversations.concat({
+          who: "bot",
+          content: content,
+          intent: intent,
+        });
+      }
       if (intent !== "Default Fallback Intent" && parameters)
         params = { intent: intent, fields: parameters };
     } catch (error) {
       let conversation = {
         who: "bot",
         content: { text: { text: "Error just occured" } },
+        intent: null,
       };
       conversations = [conversation];
     }
