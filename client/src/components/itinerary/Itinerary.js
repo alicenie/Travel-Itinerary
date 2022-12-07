@@ -1,12 +1,11 @@
 import React from "react";
 import Column from "./column";
-// import '@atlaskit/css-reset';
+import '@atlaskit/css-reset';
 import { DragDropContext } from "react-beautiful-dnd";
 
 class Itinerary extends React.Component {
   onDragStart = () => {
-    document.body.style.color = "#034752";
-    document.body.style.transition = "background-color 0.2s ease";
+    document.getElementById("itineraryColumn").style.transition = "background-color 0.2s ease";
   };
 
   onDragUpdate = (update) => {
@@ -14,12 +13,11 @@ class Itinerary extends React.Component {
     const opacity = destination
       ? destination.index / Object.keys(this.props.itineraryData.events).length
       : 0;
-    document.body.style.backgroundColor = `rgba(100, 168, 3, ${opacity})`;
+    document.getElementById("itineraryColumn").style.backgroundColor = `rgba(53, 72, 99, ${opacity})`;
   };
 
   onDragEnd = (result) => {
-    document.body.style.color = "inherit";
-    document.body.style.backgroundColor = "inherit";
+    document.getElementById("itineraryColumn").style.backgroundColor = "#354863";
 
     const { destination, source, draggableId } = result;
 
