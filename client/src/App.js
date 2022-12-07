@@ -10,8 +10,8 @@ import { getAllMessages, getActivities, getDate } from "./reducers/messages";
 
 function App() {
   const layout = [
-    { i: "map", x: 0, y: 0, w: 3, h: 1, static: true },
-    { i: "glmap", x: 0, y: 10, w: 3, h: 1, static: true },
+    { i: "map", x: 0, y: 0, w: 4, h: 9, static: true },
+    { i: "glmap", x: 0, y: 10, w: 4, h: 1, static: true },
     { i: "itinerary", x: 4, y: 0, w: 4, h: 2, static: true },
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
