@@ -333,7 +333,7 @@ function initWebGLOverlayView(map, route) {
     // renderer.render(scene, camera);
     // renderer.render(scene2, camera2);
     // renderer.render(scene3, camera3);
-    renderer.render(scene4, camera4);
+    // renderer.render(scene4, camera4);
 
     renderer.resetState();
     for (let i = 0; i < route.length; i++) {
