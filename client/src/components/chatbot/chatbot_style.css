@@ -36,6 +36,11 @@
   border-radius: 15px;
 }
 
+.itinerary-container {
+  border: 3px solid #354863;
+  border-radius: 15px;
+}
+
 .title {
   text-align: center;
   background-color: #354863;

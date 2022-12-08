@@ -87,6 +87,8 @@ function App() {
             Show Walkthrough
           </button> */}
           <p
+            id="glmap-hint"
+            hidden={true}
             style={{
               zIndex: "10",
               position: "absolute",
