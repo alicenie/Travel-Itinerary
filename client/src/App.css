@@ -1,0 +1,34 @@
+button:hover {
+  cursor: pointer;
+  background-color: white;
+  color: rgb(53, 72, 99);
+}
+
+.instructions {
+  position: absolute;
+  width: 44px;
+  height: 44px;
+  border-radius: 50px;
+  font-size: 24px;
+  z-index: 10;
+  top: 55px;
+  left: 10px;
+  background-color: rgba(53, 72, 99, 0.8);
+  color: white;
+  border: none;
+}
+
+.instruction-box {
+  z-index: 10;
+  position: absolute;
+  background-color: rgba(53, 72, 99, 0.8);
+  padding: 10px;
+  color: white;
+  left: 58px;
+  top: 4px;
+  border-radius: 5px;
+}
+
+#glmap {
+  background-color: #a8cdda;
+}

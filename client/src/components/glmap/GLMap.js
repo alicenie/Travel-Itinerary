@@ -2,7 +2,7 @@ import React from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { Loader } from "@googlemaps/js-api-loader";
-import pin from "./pin.gltf";
+import pin from "./pin.glb";
 import car from "./car.glb";
 
 var animating = false;
@@ -44,7 +44,7 @@ function initWebGLOverlayView(map, route) {
   var firstlng = -79.94795;
   const mapOptions = {
     tilt: 0,
-    heading: 45,
+    heading: 0,
     zoom: 18,
     center: { lat: route[0].lat, lng: route[0].lng },
     mapId: "58142c7ff0f7264d",
@@ -150,19 +150,16 @@ function initWebGLOverlayView(map, route) {
             console.log("detected!" + e.key);
             mapOptions.center.lat -= speedlat;
             firstlat -= speedlat;
-            mapOptions.heading = -90;
             keyPressed = null;
 
             // mapOptions.center.lng -= speedlng;
           } else if (e.key === "a") {
-            mapOptions.center.lng += speedlng;
+            mapOptions.center.lng -= speedlng;
             firstlng += speedlng;
-            mapOptions.heading = 180;
             keyPressed = null;
           } else if (e.key === "d") {
-            mapOptions.center.lng -= speedlng;
+            mapOptions.center.lng += speedlng;
             firstlng -= speedlng;
-            mapOptions.heading = 0;
             keyPressed = null;
           }
         });

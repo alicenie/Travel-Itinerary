@@ -8,6 +8,8 @@ import initGLMap from "./components/glmap/GLMap";
 import { useSelector } from "react-redux";
 import { getAllMessages, getActivities, getDate } from "./reducers/messages";
 import { useLoadScript } from "@react-google-maps/api";
+import Controls from "./shared/images/controls.png";
+import "./App.css";
 
 const libraries = ["places"];
 
@@ -38,7 +40,7 @@ function App() {
     columnOrder: ["column-1"],
   };
   const [itineraryData, setItineraryData] = useState(initItineraryData);
-
+  const [showInstructions, setShowInstructions] = useState("none");
   useEffect(() => {
     console.log(activities);
     console.log(date);
@@ -64,6 +66,7 @@ function App() {
 
   if (loadError) return "Error loading Google Maps";
   if (!isLoaded) return "Loading Google Maps...";
+
   return (
     <div className="App">
       <GridLayout
@@ -77,24 +80,58 @@ function App() {
           <Map />
         </div>
         <div key="glmap">
-          <button
+          {/* <button
             onClick={() => {
               initGLMap();
             }}
           >
             Show Walkthrough
-          </button>
-          <p
-            style={{
-              zIndex: "10",
-              position: "absolute",
-              backgroundColor: "rgba(255,255,255,0.8)",
-              padding: "10px",
+          </button> */}
+
+          <button
+            className="instructions"
+            onClick={() => {
+              showInstructions === "none"
+                ? setShowInstructions("block")
+                : setShowInstructions("none");
             }}
           >
-            <strong>Press "m" to start or stop the animation.</strong>
-          </p>
-          <div id="glmap" style={{ height: "45vh" }}></div>
+            ?
+          </button>
+          <div style={{ display: showInstructions }}>
+            <div className="instruction-box">
+              <strong>Press "m" to start or stop the animation.</strong>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <img
+                  src={Controls}
+                  style={{
+                    height: "60px",
+                    width: "60px",
+                  }}
+                />
+                <p
+                  style={{
+                    paddingLeft: "10px",
+                  }}
+                >
+                  <strong>to move around.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div id="glmap" style={{ height: "45vh", borderRadius: "5px" }}>
+            <p
+              style={{
+                position: "absolute",
+                padding: "10px",
+                top: "15vh",
+              }}
+            >
+              <strong>
+                Interact with the Chatbot to experience a virtual trip.
+              </strong>
+            </p>
+          </div>
         </div>
         <div key="itinerary">
           <Itinerary
