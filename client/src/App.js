@@ -16,7 +16,7 @@ const libraries = ["places"];
 function App() {
   const layout = [
     { i: "map", x: 0, y: 0, w: 4, h: 9, static: true },
-    { i: "glmap", x: 0, y: 10, w: 4, h: 1, static: true },
+    { i: "glmap", x: 0, y: 9, w: 4, h: 1, static: true },
     { i: "itinerary", x: 4, y: 0, w: 4, h: 2, static: true },
     { i: "chatbot", x: 8, y: 0, w: 4, h: 2, static: true },
   ];
@@ -122,7 +122,15 @@ function App() {
               </div>
             </div>
           </div>
-          <div id="glmap" style={{ height: "45vh", borderRadius: "5px" }}>
+          <div
+            id="glmap"
+            style={{
+              height: "45vh",
+              borderRadius: "5px",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <p
               style={{
                 position: "absolute",
