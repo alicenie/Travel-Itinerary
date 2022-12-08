@@ -5,6 +5,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import "./map_style.css";
 
 export const addAddress = (address, addMarker) => {
   console.log(address);
@@ -63,7 +64,7 @@ const Search = ({
             <input
               {...getInputProps({
                 placeholder: "Search Places ...",
-                className: "location-search-input",
+                className: "input",
               })}
             />
             <div className="autocomplete-dropdown-container">
@@ -73,14 +74,14 @@ const Search = ({
                   ? "suggestion-item--active"
                   : "suggestion-item";
                 // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                  : { backgroundColor: "#ffffff", cursor: "pointer" };
+                // const style = suggestion.active
+                //   ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                //   : { backgroundColor: "#ffffff", cursor: "pointer" };
                 return (
                   <div
                     {...getSuggestionItemProps(suggestion, {
                       className,
-                      style,
+                      // style,
                     })}
                   >
                     <span>{suggestion.description}</span>
