@@ -62,7 +62,7 @@ class DateText extends React.Component {
     let titleText = this.props.title;
     let hintStyle = null;
     if (this.props.title === "") {
-      titleText = "No events scheduled. Chat with the chatbot to get started!";
+      titleText = "No events scheduled. Chat with the chatbot to start!";
       hintStyle = {
         color: "white",
         margin: 25,
