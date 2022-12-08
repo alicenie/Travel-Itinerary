@@ -16,7 +16,7 @@
 }
 
 .message-card-user {
-  background-color: #a9cdda;
+  background-color: #eca0a8;
   border-radius: 10px 10px 0px 10px;
   padding: 15px;
   margin: 5px;
@@ -30,7 +30,8 @@
 
 .chatbot-container {
   height: 720px;
-  width: 450px;
+  width: 100%;
+  margin: auto;
   border: 3px solid #354863;
   border-radius: 15px;
 }
@@ -61,6 +62,7 @@
   width: 80%;
   margin: 10px;
   font-size: 16px;
+  background-color: #35486300;
 }
 
 .input:focus {
@@ -76,6 +78,6 @@
   color: white;
   font-weight: 600; */
   border: none;
-  background-color: white;
   cursor: pointer;
+  background-color: #35486300;
 }
