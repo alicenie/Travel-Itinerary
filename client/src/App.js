@@ -69,17 +69,20 @@ function App() {
 
   return (
     <div className="App">
+      <div className="header">Travel Itinerary U Illustrate</div>
       <GridLayout
         className="layout"
         layout={layout}
+        margin={[15, 10]}
         cols={12}
         rowHeight={30}
-        width={1200}
+        width={window.innerWidth}
       >
         <div key="map">
           <Map />
         </div>
         <div key="glmap">
+          {/* <button
           {/* <button
             onClick={() => {
               initGLMap();

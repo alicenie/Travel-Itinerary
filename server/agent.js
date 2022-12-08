@@ -17,7 +17,7 @@ router.post("/text-input", async (req, res) => {
   const sessionPath = sessionClient.projectAgentSessionPath(
     process.env.PROJECT_ID,
     // uuid4()
-    "bot-session" // can't be a random id, otherwise can't detect context!!!
+    process.env.SESSION_ID // can't be a random id, otherwise can't detect context!!!
   );
 
   const contexts = sessionClient.getContext;
@@ -57,7 +57,7 @@ router.post("/event", async (req, res) => {
   const sessionPath = sessionClient.projectAgentSessionPath(
     process.env.PROJECT_ID,
     // uuid4()
-    "bot-session"
+    process.env.SESSION_ID
   );
 
   // The dialogflow request object

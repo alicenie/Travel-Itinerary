@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import Axios from "axios";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   fetchMessages,
@@ -7,16 +6,19 @@ import {
   updateLatLng,
   getAllMessages,
   getActivities,
-  getDate,
 } from "../../reducers/messages";
 import Message from "./Message";
 import Search from "../map/Search";
 import initGLMap from "../glmap/GLMap";
+import "./chatbot_style.css";
+import send_active_icon from "./send_active.svg";
+import send_disabled_icon from "./send_disabled.svg";
 
 const Chatbot = () => {
   const dispatch = useDispatch();
   const messages = useSelector(getAllMessages).messages;
   const activities = useSelector(getActivities);
+  const messageEl = useRef(null);
 
   const [input, setInput] = useState(""); // text in the input box
   const [isInputLocation, setIsInputLocation] = useState(false);
@@ -26,6 +28,13 @@ const Chatbot = () => {
 
   useEffect(() => {
     eventQuery("welcomeToMyWebsite");
+
+    if (messageEl) {
+      messageEl.current.addEventListener("DOMNodeInserted", (event) => {
+        const { currentTarget: target } = event;
+        target.scroll({ top: target.scrollHeight, behavior: "smooth" });
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -84,7 +93,7 @@ const Chatbot = () => {
   };
 
   const handleSendMsg = (e) => {
-    if (input == "") {
+    if (input == "" && e.key == "Enter") {
       return alert("you need to type somthing first");
     }
 
@@ -119,50 +128,49 @@ const Chatbot = () => {
   }, [activities]);
 
   return (
-    <div>
-      <h3>Chatbot</h3>
-      <div
-        style={{
-          height: 700,
-          width: 500,
-          border: "3px solid black",
-          borderRadius: "7px",
-        }}
-      >
-        <div style={{ height: 644, width: "100%", overflow: "auto" }}>
+    <div className="chatbot-container">
+      <div className="title">
+        <span>Chatbot</span>
+      </div>
+
+      <div className="chat-container">
+        <div className="messages-container" ref={messageEl}>
           {messages.length > 0
             ? messages.map((msg) => {
                 return <Message who={msg.who} text={msg.content.text.text} />;
               })
             : null}
         </div>
-        {isInputLocation ? (
-          <Search
-            onSelect={(address) => handleSelect(address)}
-            onChange={setAddress}
-            getLatLng={setLatLng}
-            address={address}
-          />
-        ) : (
-          <div>
-            <input
-              style={{
-                margin: 0,
-                width: "100%",
-                height: 50,
-                borderRadius: "4px",
-                padding: "5px",
-                fontSize: "1rem",
-              }}
-              placeholder="Send a message..."
-              onChange={(e) => setInput(e.target.value)}
-              onKeyUp={handleSendMsg}
-              type="text"
-              value={input}
+        <div className="input-container">
+          {isInputLocation ? (
+            <Search
+              onSelect={(address) => handleSelect(address)}
+              onChange={setAddress}
+              getLatLng={setLatLng}
+              address={address}
             />
-            <button onClick={handleSendMsg}>Send</button>
-          </div>
-        )}
+          ) : (
+            <div>
+              <input
+                className="input"
+                placeholder="Send a message..."
+                onChange={(e) => setInput(e.target.value)}
+                onKeyUp={handleSendMsg}
+                type="text"
+                value={input}
+              />
+              <button
+                className="send-btn"
+                onClick={handleSendMsg}
+                disabled={input == ""}
+              >
+                <img
+                  src={input == "" ? send_disabled_icon : send_active_icon}
+                ></img>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

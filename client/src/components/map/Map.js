@@ -42,7 +42,10 @@ const Map = () => {
         };
     });
     if (newMarkers.length === 1 && newMarkers.at(0)) {
-      mapRef.current.panTo({lat: newMarkers.at(0).lat, lng: newMarkers.at(0).lng});
+      mapRef.current.panTo({
+        lat: newMarkers.at(0).lat,
+        lng: newMarkers.at(0).lng,
+      });
     }
     setMarkerObjs([]);
     setMarkers(newMarkers);
@@ -186,7 +189,7 @@ const Map = () => {
   // if (!isLoaded) return "Loading Google Maps...";
   return (
     <div>
-      <Search setCoords={setCoords} addMarker={addMarker} />
+      {/* <Search setCoords={setCoords} addMarker={addMarker} /> */}
 
       <GoogleMap
         id="marker-example"

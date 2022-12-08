@@ -383,6 +383,9 @@ const initGLMap = async (route) => {
   console.log(route);
   const map = await initMap(route);
   initWebGLOverlayView(map, route);
+
+  // show hint message
+  document.getElementById("glmap-hint").hidden = false;
 };
 
 export default initGLMap;
